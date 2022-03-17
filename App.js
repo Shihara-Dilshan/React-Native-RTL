@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View, I18nManager} from 'react-native';
 import './i18n';
 import {useTranslation} from 'react-i18next';
+import RNRestart from "react-native-restart";
 
 const App = () => {
   const {t, i18n} = useTranslation();
@@ -20,7 +21,15 @@ const App = () => {
       <Button
         title={t('changeLngBtn')}
         onPress={() => {
-          i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar');
+          i18n
+            .changeLanguage(i18n.language === 'ar' ? 'en' : 'ar')
+            .then(() => {
+              I18nManager.forceRTL(i18n.language === 'ar');
+              RNRestart.Restart();
+            })
+            .catch(err => {
+              console.log('something went wrong while applying RTL');
+            });
         }}
       />
     </View>
@@ -40,7 +49,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex : 1
+    flex: 1,
   },
   innerViewContainer1: {
     backgroundColor: 'red',
