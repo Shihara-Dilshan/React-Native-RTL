@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View, I18nManager} from 'react-native';
+import {Button, StyleSheet, Text, View, I18nManager, Alert} from 'react-native';
 import './i18n';
 import {useTranslation} from 'react-i18next';
 import RNRestart from "react-native-restart";
@@ -28,7 +28,7 @@ const App = () => {
               RNRestart.Restart();
             })
             .catch(err => {
-              console.log('something went wrong while applying RTL');
+              Alert.alert("something went wrong while applying RTL")
             });
         }}
       />
